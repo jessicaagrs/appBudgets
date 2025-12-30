@@ -1,20 +1,17 @@
-import { theme } from '@/theme/theme';
-import { Budget } from '@/types/budget.type';
 import { StyleSheet, Text, View } from 'react-native';
+
+import { theme } from '@/theme/theme';
+
+import { Budget } from '@/types/budget.type';
+
+import { formatCurrency } from '@/utils/formatters';
+
+import { sumPricesBugets } from '@/services/storage.service';
+
+import { Tag } from '../common';
 
 type BudgetProps = {
   budget: Budget;
-};
-
-const Tag = ({ status }: { status: string }) => {
-  return (
-    <View style={[styles.tagContainer, styleStatus[status]?.tagContainer]}>
-      <View style={[styles.tagCircle, styleStatus[status]?.tagCircle]} />
-      <Text style={[styles.tagLabel, styleStatus[status]?.tagLabel]}>
-        {status}
-      </Text>
-    </View>
-  );
 };
 
 export const CardBudget = ({ budget }: BudgetProps) => {
@@ -26,7 +23,12 @@ export const CardBudget = ({ budget }: BudgetProps) => {
       </View>
       <View style={styles.info}>
         <Tag status={budget.status} />
-        <Text>R$ 22.300,00</Text>
+        <View style={styles.price}>
+          <Text style={styles.priceSymbol}>R$</Text>
+          <Text style={styles.priceValue}>
+            {formatCurrency(sumPricesBugets(budget.items))}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -63,70 +65,22 @@ const styles = StyleSheet.create({
   info: {
     alignItems: 'flex-end',
     justifyContent: 'space-between',
+    gap: 16,
   },
-  tagContainer: {
-    borderRadius: 6,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+  price: {
     flexDirection: 'row',
+    gap: 4,
     alignItems: 'center',
-    gap: 6,
   },
-  tagCircle: {
-    width: 8,
-    height: 8,
-    borderRadius: 50,
-  },
-  tagLabel: {
+  priceSymbol: {
     fontSize: 12,
     lineHeight: 20,
+    color: theme.colors.gray_700,
+  },
+  priceValue: {
+    fontSize: 16,
     fontWeight: 700,
+    lineHeight: 24,
+    color: theme.colors.gray_700,
   },
 });
-
-const styleStatus = {
-  Aprovado: {
-    tagContainer: {
-      backgroundColor: theme.colors.sucess_light,
-    },
-    tagCircle: {
-      backgroundColor: theme.colors.sucess_base,
-    },
-    tagLabel: {
-      color: theme.colors.sucess_dark,
-    },
-  },
-  Rascunho: {
-    tagContainer: {
-      backgroundColor: theme.colors.gray_300,
-    },
-    tagCircle: {
-      backgroundColor: theme.colors.gray_400,
-    },
-    tagLabel: {
-      color: theme.colors.gray_500,
-    },
-  },
-  Enviado: {
-    tagContainer: {
-      backgroundColor: theme.colors.info_light,
-    },
-    tagCircle: {
-      backgroundColor: theme.colors.info_base,
-    },
-    tagLabel: {
-      color: theme.colors.info_dark,
-    },
-  },
-  Recusado: {
-    tagContainer: {
-      backgroundColor: theme.colors.danger_light,
-    },
-    tagCircle: {
-      backgroundColor: theme.colors.danger_base,
-    },
-    tagLabel: {
-      color: theme.colors.danger_dark,
-    },
-  },
-};

@@ -5,11 +5,15 @@ import { theme } from '@/theme/theme';
 
 type InputProps = TextInputProps & {
   showIcon?: boolean;
+  onChange?: (value: string) => void;
+  value?: string;
 };
 
 export const Input = ({
   showIcon = true,
   placeholder = 'Título ou cliente',
+  onChange,
+  value,
   ...props
 }: InputProps) => {
   return (
@@ -27,6 +31,8 @@ export const Input = ({
         style={showIcon ? styles.input : [styles.input, { paddingLeft: 16 }]}
         placeholder={placeholder}
         placeholderTextColor={theme.colors.gray_500}
+        onChangeText={onChange}
+        value={value}
         {...props}
       />
     </View>

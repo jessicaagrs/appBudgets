@@ -1,8 +1,10 @@
 import Icon from '@expo/vector-icons/FontAwesome6';
 import React from 'react';
 import {
+  StyleProp,
   StyleSheet,
   Text,
+  TextStyle,
   TouchableOpacity,
   TouchableOpacityProps,
 } from 'react-native';
@@ -12,18 +14,23 @@ import { theme } from '@/theme/theme';
 type ButtonProps = TouchableOpacityProps & {
   iconName?: string;
   label?: string;
+  styleLabel?: StyleProp<TextStyle>;
   showIcon?: boolean;
+  onPress?: () => void;
 };
 
 export function Button({
   iconName = 'plus',
   label = 'Novo',
   showIcon = true,
+  style,
+  styleLabel,
   ...props
 }: ButtonProps) {
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, style]}
+      onPress={props.onPress}
       {...props}
     >
       {showIcon && (
@@ -33,7 +40,7 @@ export function Button({
           color={theme.colors.white}
         />
       )}
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, styleLabel]}>{label}</Text>
     </TouchableOpacity>
   );
 }

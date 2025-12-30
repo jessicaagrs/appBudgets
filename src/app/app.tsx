@@ -6,6 +6,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import HomeScreen from '@/app/routes/home';
 
+import { BudgetProvider } from '@/context/budget.context';
 import { theme } from '@/theme/theme';
 
 const Stack = createNativeStackNavigator();
@@ -36,7 +37,9 @@ export default function App() {
           style={styles.statusbar}
           edges={['top', 'bottom']}
         >
-          <RootStack />
+          <BudgetProvider>
+            <RootStack />
+          </BudgetProvider>
         </SafeAreaView>
       </NavigationContainer>
     </SafeAreaProvider>

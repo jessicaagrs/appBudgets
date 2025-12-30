@@ -4,13 +4,14 @@ export interface Budget {
   title: string;
   items: Item[];
   status: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
-interface Item {
+export interface Item {
   id: string;
   description: string;
+  detail: string;
   qty: number;
   price: number;
 }

@@ -1,25 +1,23 @@
-import { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useEffect } from 'react';
+import { Alert, FlatList, StyleSheet, Text, View } from 'react-native';
 
 import { CardBudget } from './cardBudget';
 
-import { getBudgets } from '@/services/budget.service';
+import useBudget from '@/context/budget.context';
 
-import { Budget } from '@/types/budget.type';
+const Separator = () => <View style={styles.separator} />;
 
-export default function ListBudgets() {
-  const [loading, setLoading] = useState(true);
-  const [budgets, setBudgets] = useState<Budget[]>([]);
+export function ListBudgets() {
+  const { data: budgets, loading, error } = useBudget();
 
   useEffect(() => {
-    getBudgets().then(data => {
-      setBudgets(data);
-      setLoading(false);
-    });
-  }, []);
+    if (error) {
+      Alert.alert('Ocorreu um erro inesperado', error);
+    }
+  }, [error]);
 
   if (loading) {
-    return <Text>Carregando orçamentos...</Text>;
+    return <Text style={styles.loadingText}>Carregando orçamentos...</Text>;
   }
 
   return (
@@ -27,12 +25,17 @@ export default function ListBudgets() {
       data={budgets}
       keyExtractor={item => item.id}
       renderItem={({ item }) => <CardBudget budget={item} />}
-      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      ItemSeparatorComponent={Separator}
     />
   );
 }
 
 const styles = StyleSheet.create({
+  loadingText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 20,
+  },
   separator: {
     height: 8,
   },
