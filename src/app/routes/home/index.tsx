@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { Filters, Header, Welcome } from '@/components/home';
-import ListBudgets from '@/components/home/listBudgets';
+import { Filters, Header, ListBudgets, Welcome } from '@/components/home';
 
 import { theme } from '@/theme/theme';
 
