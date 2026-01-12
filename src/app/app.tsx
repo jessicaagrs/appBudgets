@@ -4,15 +4,17 @@ import * as React from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import HomeScreen from '@/app/routes/home';
 import EditScreen from '@/app/routes/edit';
+import HomeScreen from '@/app/routes/home';
+import DetailsScreen from '@/app/routes/details';
 
 import { BudgetProvider } from '@/context/budget.context';
 import { theme } from '@/theme/theme';
 
 export type RootStackParamList = {
   Home: undefined;
-  Edit: undefined;
+  Edit: { budgetId?: string } | undefined;
+  Details: { budgetId: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList, 'root'>();
@@ -34,6 +36,10 @@ function RootStack() {
       <Stack.Screen
         name='Edit'
         component={EditScreen}
+      />
+      <Stack.Screen
+        name='Details'
+        component={DetailsScreen}
       />
     </Stack.Navigator>
   );

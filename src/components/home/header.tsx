@@ -6,15 +6,26 @@ import { theme } from '@/theme/theme';
 
 import { RootStackParamList } from '@/app/app';
 import { Button } from '@/components/common';
+import useBudget from '@/context/budget.context';
+import { BudgetStatus } from '@/enum/enum';
 
 export const Header = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { data } = useBudget();
+
+  const draftCount = data.filter(
+    budget => budget.status === BudgetStatus.RASCUNHO
+  ).length;
+
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.title}>Orçamentos</Text>
-        <Text style={styles.subtitle}>Você tem 1 item em rascunho</Text>
+        <Text style={styles.subtitle}>
+          Você tem {draftCount} {draftCount === 1 ? 'item' : 'itens'} em
+          rascunho
+        </Text>
       </View>
       <Button onPress={() => navigation.navigate('Edit')} />
     </View>

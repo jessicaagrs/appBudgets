@@ -6,6 +6,7 @@ export interface Budget {
   status: string;
   createdAt: string;
   updatedAt: string;
+  discount?: number;
 }
 
 export interface Item {

@@ -16,6 +16,7 @@ type ModalFilterAndSortProps = Readonly<{
   setModalVisible: (visible: boolean) => void;
   titleHeader?: string;
   children: React.ReactNode;
+  footer?: React.ReactNode;
   styleModal?: StyleProp<ViewStyle>;
 }>;
 
@@ -24,6 +25,7 @@ export function Modal({
   setModalVisible,
   titleHeader = 'Filtrar e ordenar',
   children,
+  footer,
   styleModal,
 }: ModalFilterAndSortProps) {
   return (
@@ -48,6 +50,7 @@ export function Modal({
             </TouchableOpacity>
           </View>
           <View style={styles.modalBody}>{children}</View>
+          {footer && <View style={styles.footer}>{footer}</View>}
         </View>
       </View>
     </ModalRN>
@@ -73,6 +76,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    maxHeight: '85%',
+    width: '100%',
   },
   modalHeader: {
     width: '100%',
@@ -92,5 +97,17 @@ const styles = StyleSheet.create({
   modalBody: {
     padding: 20,
     gap: 20,
+    flexGrow: 1,
+  },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    borderTopWidth: 1,
+    borderTopColor: theme.colors.gray_200,
+    marginTop: 'auto',
+    gap: 12,
   },
 });

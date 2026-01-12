@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { theme } from '@/theme/theme';
 
@@ -10,13 +12,26 @@ import { sumPricesBugets } from '@/services/storage.service';
 
 import { Tag } from '../common';
 
+import { RootStackParamList } from '@/app/app';
+
 type BudgetProps = {
   budget: Budget;
 };
 
+type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
+
 export const CardBudget = ({ budget }: BudgetProps) => {
+  const navigation = useNavigation<NavigationProps>();
+
+  const handlePress = () => {
+    navigation.navigate('Details', { budgetId: budget.id });
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={handlePress}
+    >
       <View style={styles.text}>
         <Text style={styles.title}>{budget.title}</Text>
         <Text style={styles.subtitle}>{budget.client}</Text>
@@ -30,7 +45,7 @@ export const CardBudget = ({ budget }: BudgetProps) => {
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

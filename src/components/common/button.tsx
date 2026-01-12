@@ -17,7 +17,6 @@ type ButtonProps = TouchableOpacityProps & {
   styleLabel?: StyleProp<TextStyle>;
   colorIcon?: string;
   showIcon?: boolean;
-  onPress: () => void;
 };
 
 export function Button({
