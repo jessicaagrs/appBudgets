@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   tagLabel: {
     fontSize: 12,
     lineHeight: 20,
-    fontWeight: 700,
+    fontWeight: '700',
   },
 });
 

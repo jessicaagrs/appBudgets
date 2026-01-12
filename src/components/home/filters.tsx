@@ -1,6 +1,6 @@
 import { Checkbox } from 'expo-checkbox';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { BudgetStatus, SortOptionBudgets } from '@/enum/enum';
 import { theme } from '@/theme/theme';
@@ -93,6 +93,13 @@ export function Filters() {
   }, [resetFilters]);
 
   const handlePressApplyFilters = useCallback(() => {
+    if (!selectedStatus && !selectedSortOption) {
+      Alert.alert(
+        'Erro',
+        'Por favor, selecione pelo menos um filtro ou opção de ordenação.'
+      );
+      return;
+    }
     setAppliedStatus(selectedStatus);
     setAppliedSortOption(selectedSortOption);
 

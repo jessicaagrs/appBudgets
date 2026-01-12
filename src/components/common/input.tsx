@@ -5,34 +5,46 @@ import { theme } from '@/theme/theme';
 
 type InputProps = TextInputProps & {
   showIcon?: boolean;
-  onChange?: (value: string) => void;
-  value?: string;
+  colorIcon?: string;
 };
 
 export const Input = ({
   showIcon = true,
   placeholder = 'Título ou cliente',
-  onChange,
+  onChangeText,
   value,
+  multiline = false,
+  numberOfLines = 1,
+  maxLength,
+  colorIcon,
+  style,
   ...props
 }: InputProps) => {
+  const baseStyle = showIcon
+    ? styles.input
+    : [styles.input, styles.noIconPadding];
+
   return (
     <View style={styles.container}>
       {showIcon && (
         <Icon
           name='magnifying-glass'
           size={20}
-          color={theme.colors.gray_600}
+          color={colorIcon || theme.colors.gray_600}
           style={styles.icon}
         />
       )}
 
       <TextInput
-        style={showIcon ? styles.input : [styles.input, { paddingLeft: 16 }]}
+        style={[baseStyle, multiline && styles.textArea, style]}
         placeholder={placeholder}
         placeholderTextColor={theme.colors.gray_500}
-        onChangeText={onChange}
+        onChangeText={onChangeText}
         value={value}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
+        maxLength={maxLength}
+        textAlignVertical={multiline ? 'top' : 'center'}
         {...props}
       />
     </View>
@@ -53,7 +65,6 @@ const styles = StyleSheet.create({
     pointerEvents: 'none',
   },
   input: {
-    flex: 1,
     borderRadius: 30,
     borderWidth: 1,
     borderColor: theme.colors.gray_300,
@@ -62,5 +73,12 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingLeft: 48,
     fontSize: 16,
+  },
+  noIconPadding: {
+    paddingLeft: 16,
+  },
+  textArea: {
+    minHeight: 120,
+    borderRadius: 16,
   },
 });

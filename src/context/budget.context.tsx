@@ -9,7 +9,13 @@ import React, {
 
 import { BudgetStatus, SortOptionBudgets } from '@/enum/enum';
 
-import { getBudgets, sumPricesBugets } from '@/services/storage.service';
+import {
+  deleteBudget,
+  duplicateBudget,
+  getBudgets,
+  sumPricesBugets,
+  updateBudget,
+} from '@/services/storage.service';
 
 import { Budget } from '@/types/budget.type';
 
@@ -18,6 +24,9 @@ type BudgetContextValue = {
   loading: boolean;
   error: string;
   fetchBudgets: () => Promise<void>;
+  deleteBudget: (budgetId: string) => Promise<boolean>;
+  duplicateBudget: (budgetId: string) => Promise<Budget | null>;
+  updateBudget: (budgetId: string, budget: Budget) => Promise<boolean>;
   applyFilters: (params?: {
     sort?: SortOptionBudgets;
     status?: BudgetStatus;
@@ -89,6 +98,39 @@ export function BudgetProvider({
     }
   }, []);
 
+  const handleDeleteBudget = useCallback(
+    async (budgetId: string) => {
+      const success = await deleteBudget(budgetId);
+      if (success) {
+        await fetchBudgets();
+      }
+      return success;
+    },
+    [fetchBudgets]
+  );
+
+  const handleDuplicateBudget = useCallback(
+    async (budgetId: string) => {
+      const duplicated = await duplicateBudget(budgetId);
+      if (duplicated) {
+        await fetchBudgets();
+      }
+      return duplicated;
+    },
+    [fetchBudgets]
+  );
+
+  const handleUpdateBudget = useCallback(
+    async (budgetId: string, budget: Budget) => {
+      const success = await updateBudget(budgetId, budget);
+      if (success) {
+        await fetchBudgets();
+      }
+      return success;
+    },
+    [fetchBudgets]
+  );
+
   const applyFilters = useCallback(
     (params?: {
       sort?: SortOptionBudgets;
@@ -130,8 +172,28 @@ export function BudgetProvider({
   }, [fetchBudgets]);
 
   const value = useMemo<BudgetContextValue>(
-    () => ({ data, loading, error, fetchBudgets, applyFilters, resetFilters }),
-    [data, loading, error, fetchBudgets, applyFilters, resetFilters]
+    () => ({
+      data,
+      loading,
+      error,
+      fetchBudgets,
+      deleteBudget: handleDeleteBudget,
+      duplicateBudget: handleDuplicateBudget,
+      updateBudget: handleUpdateBudget,
+      applyFilters,
+      resetFilters,
+    }),
+    [
+      data,
+      loading,
+      error,
+      fetchBudgets,
+      handleDeleteBudget,
+      handleDuplicateBudget,
+      handleUpdateBudget,
+      applyFilters,
+      resetFilters,
+    ]
   );
 
   return (

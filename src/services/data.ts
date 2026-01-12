@@ -1,6 +1,6 @@
 import { Budget } from "@/types/budget.type";
 
-export const DATA : Budget[] = [
+export const DATA: Budget[] = [
   {
     id: 'cb4a4094-10f0-4d73-a034-d0dd5fb0ee90',
     client: 'Soluções Tecnológicas Beta',
@@ -24,6 +24,7 @@ export const DATA : Budget[] = [
     status: 'Aprovado',
     createdAt: '2025-02-18 16:18:40',
     updatedAt: '2025-11-13 18:23:04',
+    discount: 200,
   },
   {
     id: 'e63c8972-06ba-40c4-938c-7fdb1dc3bfa0',

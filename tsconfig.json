@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],

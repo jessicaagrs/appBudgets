@@ -15,8 +15,8 @@ type ButtonProps = TouchableOpacityProps & {
   iconName?: string;
   label?: string;
   styleLabel?: StyleProp<TextStyle>;
+  colorIcon?: string;
   showIcon?: boolean;
-  onPress?: () => void;
 };
 
 export function Button({
@@ -25,19 +25,21 @@ export function Button({
   showIcon = true,
   style,
   styleLabel,
+  onPress,
+  colorIcon,
   ...props
 }: ButtonProps) {
   return (
     <TouchableOpacity
       style={[styles.container, style]}
-      onPress={props.onPress}
+      onPress={onPress}
       {...props}
     >
       {showIcon && (
         <Icon
           name={iconName}
           size={16}
-          color={theme.colors.white}
+          color={colorIcon || theme.colors.white}
         />
       )}
       <Text style={[styles.label, styleLabel]}>{label}</Text>
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     lineHeight: 22,
-    fontWeight: 700,
+    fontWeight: '700',
     color: theme.colors.white,
   },
 });
